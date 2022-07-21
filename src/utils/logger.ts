@@ -1,13 +1,10 @@
 const pino = require('pino');
 const day = require('dayjs');
+const { logObject } = require('../utils/constant');
 
 require('dotenv').config();
 const currentDay = day().format('DD_MM_YYYY');
 const logState = process.env['logger'];
-const logObject = {
-  on: 'on',
-  off: 'off',
-};
 
 const consoleConfig = [
   {
@@ -26,7 +23,7 @@ let writeLogConfig = [
     options: {
       ...consoleConfig[0]?.options,
       colorize: false,
-      destination: `logs/${currentDay}/tracking.log`,
+      destination: `${process.cwd}/logs/${currentDay}/tracking.log`,
       append: true,
       mkdir: true,
     },

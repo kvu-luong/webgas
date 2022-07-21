@@ -75,5 +75,7 @@ node -v > .nvmrc
 2. Conect Mongodb
 3. Log with pino
 4. Route
-Differenct between import and require:
-require for express library,  but we need to use **import** for type express
+
+     Differences between import and require:
+
+    **require** for express library,  but we need to use **import** for type express
