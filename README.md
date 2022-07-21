@@ -72,3 +72,8 @@ node -v > .nvmrc
 
 ## Start Coding
 1. Tutorial: https://www.youtube.com/watch?v=BWUi6BS9T5Y&t=0s 
+2. Conect Mongodb
+3. Log with pino
+4. Route
+Differenct between import and require:
+require for express library,  but we need to use **import** for type express
