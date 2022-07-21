@@ -69,3 +69,6 @@ node -v > .nvmrc
 ```
 - create file .npmrc
 - setup engine in package.json
+
+## Start Coding
+1. Tutorial: https://www.youtube.com/watch?v=BWUi6BS9T5Y&t=0s 
