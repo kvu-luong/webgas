@@ -17,13 +17,14 @@ const consoleConfig = [
   },
 ];
 
+console.log(`${process.cwd()}/logs/${currentDay}/tracking.log`);
 let writeLogConfig = [
   {
     target: consoleConfig[0]?.target,
     options: {
       ...consoleConfig[0]?.options,
       colorize: false,
-      destination: `${process.cwd}/logs/${currentDay}/tracking.log`,
+      destination: `${process.cwd()}/logs/${currentDay}/tracking.log`,
       append: true,
       mkdir: true,
     },

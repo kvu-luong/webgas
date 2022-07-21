@@ -70,10 +70,13 @@ node -v > .nvmrc
 - create file .npmrc
 - setup engine in package.json
 
-## Start Coding
+## 2. Start Coding
 1. Tutorial: https://www.youtube.com/watch?v=BWUi6BS9T5Y&t=0s 
 2. Conect Mongodb
 3. Log with pino
+
+    in .gitignore need to write rule 'logs' before git add to prevent overwrite rule ignore
+
 4. Route
 
      Differences between import and require:
