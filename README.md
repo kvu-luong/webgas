@@ -8,13 +8,43 @@ yarn install
 yarn watch:dev
 yarn server:dev
 ```
+give permission for husky
+```
+chmod +x .husky/pre-commit
+chmod +x .husky/commit-msg
+```
+
 
 ### Processing
 - 23/07/2023: 1st
++ Node version: **16.20.0**
 + Settup project with webpack
   + Need wepback to use alias in typescript project after build.
 + Fix error enviroment can't load
   + Using dotenvwpack in webackconfig to load environment
++ Code structure with MVC pattern
+  + https://www.youtube.com/watch?v=x2xkzvG1NDg
+    + BigInt -> let compare number more safe when that number exceed the maximum number
+    + Nummber: 9_000_000
+  + Mongo pattern
+    + Model nest set: https://www.mongodb.com/docs/manual/tutorial/model-tree-structures-with-nested-sets/
+    + 
+--------------------
+inistal middlewae :
+  - dev dependency
+    - morgan: http request logger -> write down request log.
+    - helmet: hide technique that use in our projet
+    - compressiion: reduce response data size -> increase performance -> https://www.youtube.com/watch?v=bIFq0fxNLoE
+    - usefull package: https://www.becomebetterprogrammer.com/how-to-use-third-party-middleware-with-express-js-and-typescript/
+    - cors: https://www.npmjs.com/package/cors#configuring-cors
+- --------------
+
+  
+Issues
+- eslint???
+- log folder is not working ???
+
+
 ## 1. Setup
 
 1. install library
