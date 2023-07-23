@@ -1,3 +1,20 @@
+### Usage
+```
+yarn install
+```
+
+- Dev mode
+```
+yarn watch:dev
+yarn server:dev
+```
+
+### Processing
+- 23/07/2023: 1st
++ Settup project with webpack
+  + Need wepback to use alias in typescript project after build.
++ Fix error enviroment can't load
+  + Using dotenvwpack in webackconfig to load environment
 ## 1. Setup
 
 1. install library

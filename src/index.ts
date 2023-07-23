@@ -1,16 +1,5 @@
-const { connectDB } = require('./utils/dbConnect');
-const { logger } = require('./utils/logger');
-import routes from './routers';
+const envConfig = require("dotenv").config();
+console.log(`Environment configurations:`,envConfig.parsed);
 
-const express = require('express');
-require('dotenv').config();
-
-const app = express();
-const port = process.env['PORT'];
-
-app.listen(port, async () => {
-  logger.info(`App is running at port: ${port}`);
-  await connectDB();
-
-  routes(app);
-});
+import { startServer } from './server';
+startServer().catch(console.error);

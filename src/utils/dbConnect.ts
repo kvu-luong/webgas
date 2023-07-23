@@ -1,13 +1,12 @@
 const { MongoClient } = require('mongodb');
-require('dotenv').config();
 
 export const connectDB = async () => {
-  const dbUri = process.env['dbURI'];
+  const DB_URI: string|undefined = process.env.DB_URI;
+
   try {
-    await MongoClient.connect(dbUri);
+    await MongoClient.connect(DB_URI);
     console.log('DB connected');
   } catch (error) {
     console.error('Could not connect to db');
-    process.exit(1);
   }
 };

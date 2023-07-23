@@ -1,10 +1,10 @@
 const pino = require('pino');
 const day = require('dayjs');
-const { logObject } = require('../utils/constant');
-
-require('dotenv').config();
+const path = require('path');
+const { logObject } = require('@utils/constant');
+const projectRoot = path.resolve(__dirname, './');
 const currentDay = day().format('DD_MM_YYYY');
-const logState = process.env['logger'];
+const LOG_STATE:string|undefined = process.env.LOGGGER;
 
 const consoleConfig = [
   {
@@ -17,21 +17,21 @@ const consoleConfig = [
   },
 ];
 
-console.log(`${process.cwd()}/logs/${currentDay}/tracking.log`);
+console.log(`${projectRoot}/logs/${currentDay}/tracking.log`);
 let writeLogConfig = [
   {
     target: consoleConfig[0]?.target,
     options: {
       ...consoleConfig[0]?.options,
       colorize: false,
-      destination: `${process.cwd()}/logs/${currentDay}/tracking.log`,
+      destination: `${projectRoot}/logs/${currentDay}/tracking.log`,
       append: true,
       mkdir: true,
     },
   },
 ];
 
-writeLogConfig = logState === logObject.on ? writeLogConfig : [];
+writeLogConfig = LOG_STATE === logObject.on ? writeLogConfig : [];
 
 const configuration = {
   transport: {
