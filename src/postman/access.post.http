@@ -3,6 +3,7 @@
 
 POST {{uri}}shop/signup
 Content-Type: application/json
+x-api-key: 5second
 
 {
     "name": "Shop A",

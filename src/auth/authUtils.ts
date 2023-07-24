@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import configs from '@typeConfig/index';
 
-export const createTokenPair = async (payload) => {
+export const createTokenPair = async (payload: string | Buffer | object) => {
   const { access_secret, access_expiration, refresh_secret, refresh_expiration } =
     configs.commomConfig.jwt;
   try {

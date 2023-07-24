@@ -9,6 +9,9 @@ function routes(app: Express) {
       message: 'health check ok',
     });
   });
+  // check apikey: right version or partner
+
+  // check permission: which package there use : normal, vip, super star.
 
   app.use(configs.commomConfig.app.apiVersionRoute, UserRouter);
   app.use(configs.commomConfig.app.apiVersionRoute, AccessRouter);

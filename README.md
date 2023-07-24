@@ -55,7 +55,7 @@ chmod +x .husky/commit-msg
             "body": [
               "import { Schema, model, Document } from 'mongoose';",
               "",
-              "interface I${1:ModelName} {",
+              "export interface I${1:ModelName} {",
               "\tpublicKey: string;",
               "\tprivateKey: string;",
               "}",
@@ -108,6 +108,34 @@ chmod +x .husky/commit-msg
         - only 1 devide
         - blacklist + whitelist ????
         - create token error but still create db record
+
+
+
+    part3: check apiKey and permission ( identify partner and there membership)
+    https://www.youtube.com/watch?v=nQxEwBAcYrI
+    - custome type of request 
+   
+    ```
+    
+    declare module 'express-serve-static-core' {
+      interface Request {
+        objKey?: IApiKey; // Replace IApiKey with the actual type of objKey
+      }
+    }
+    ```
+
+     - mongo record auto delete with **expires** in Schema
+        ```
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            expires: "30d"
+        }
+        ```
+
+
+  part 4: error handler
+  https://www.youtube.com/watch?v=hyF1S0nFS7A
 --------------------
 inistal middlewae :
   - dev dependency

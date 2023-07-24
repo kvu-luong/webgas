@@ -9,6 +9,7 @@ import { logger } from '@utils/logger';
 import { checkDBConnectOverLoad } from '@helpers/check.connect';
 import routes from './routers';
 import configs from '@typeConfig/index';
+import { apiKeyMiddleware, permissionMiddleware } from '@auth/checkAuth';
 
 const app: Express = express();
 
@@ -42,6 +43,9 @@ app.use(
     extended: true,
   })
 );
+
+app.use(apiKeyMiddleware);
+app.use(permissionMiddleware('normal'));
 
 //Routers
 routes(app);
