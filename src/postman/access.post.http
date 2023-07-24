@@ -1,0 +1,12 @@
+### signup
+@uri=http://localhost:4000/v1/api/
+
+POST {{uri}}shop/signup
+Content-Type: application/json
+
+{
+    "name": "Shop A",
+    "email": "shopa2211w@yopmail.com",
+    "password": "123123"
+}
+

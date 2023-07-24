@@ -22,7 +22,11 @@
       "@utils/*": ["./src/utils/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@declareTypes/*": ["src/declareTypes/*"],
-      "@typeConfig/*": ["./src/configs/*"]
+      "@typeConfig/*": ["./src/configs/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@models/*": ["./src/models/*"],
+      "@auth/*": ["./src/auth/*"],
+      "@services/*": ["./src/services/*"]
     }
   },
   "include": ["src/**/*"],

@@ -8,7 +8,7 @@ import { dbConnect } from '@utils/dbConnect';
 import { logger } from '@utils/logger';
 import { checkDBConnectOverLoad } from '@helpers/check.connect';
 import routes from './routers';
-import config from '@typeConfig/index';
+import configs from '@typeConfig/index';
 
 const app: Express = express();
 
@@ -36,16 +36,22 @@ app.use(
     },
   }) as RequestHandler
 );
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 //Routers
 routes(app);
 
 // DB
 dbConnect;
-checkDBConnectOverLoad();
+// checkDBConnectOverLoad();
 
 // Setup server
-const PORT: number = config.app.port;
+const PORT: number = configs.commomConfig.app.port;
 const startServer = (): Promise<void> => {
   return new Promise<void>((resolve) => {
     app.listen(PORT, async () => {

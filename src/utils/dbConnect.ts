@@ -1,9 +1,9 @@
 import mongoose, { ConnectOptions } from 'mongoose';
 import { countConnect } from '@helpers/check.connect';
-import config from '@typeConfig/index';
+import configs from '@typeConfig/index';
 
 // Mongo connection
-const DB_URI = `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`;
+const DB_URI = `mongodb://${configs.commomConfig.db.host}:${configs.commomConfig.db.port}/${configs.commomConfig.db.name}`;
 type MongoConnectFunction = () => void;
 const mongoConnectDB: MongoConnectFunction = (): void => {
   if (process.env.NODE_ENV === 'dev') {

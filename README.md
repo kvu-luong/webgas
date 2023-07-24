@@ -40,7 +40,74 @@ chmod +x .husky/commit-msg
   + Different between env and configs??
     env: sensitive information.
     config: common, support to setup project.
-  + 
+
+
+
+  + Sigup API:
+    + shop model
+    + vscode extenstionrest request
+      + create snippet 
+        + ctrl shift p -> type search snippet
+        + create new snippet file json.
+        + ```
+         "Generate Mongoose Schema": {
+            "prefix": "mdbgm",
+            "body": [
+              "import { Schema, model, Document } from 'mongoose';",
+              "",
+              "interface I${1:ModelName} {",
+              "\tpublicKey: string;",
+              "\tprivateKey: string;",
+              "}",
+              "",
+              "const DOCUMENT_NAME = '${1:ModelName}';",
+              "const COLLECTION_NAME = '${2:collectionName}';",
+              "",
+              "const ${3:keyStoreSchema} = new Schema<I${1:ModelName}>({",
+              "\tpublicKey: {",
+              "\t\ttype: String,",
+              "\t\trequired: true,",
+              "\t\tunique: true,",
+              "\t\tindex: true",
+              "\t},",
+              "\tprivateKey: {",
+              "\t\ttype: String,",
+              "\t\trequired: true,",
+              "\t\tunique: true",
+              "\t}",
+              "}, {",
+              "\ttimestamps: true,",
+              "\tcollection: COLLECTION_NAME",
+              "});",
+              "",
+              "export default model<I${1:ModelName} & Document>(DOCUMENT_NAME, ${3:keyStoreSchema});"
+            ],
+            "description": "Generate Mongoose Schema with TypeScript"
+          }
+        ```
+        + usage: typing -> mdbgm then press **Enter**, input the first parameter,  then **Tab** to type the second parameter
+
+    + router, controller, service
+    + query .lean() -> return object
+    + signup: validate mail(exist, format)
+    + using argon2-ffi to hash password: https://www.npmjs.com/package/argon2-ffi
+  
+
+  part2: 
+  - keystoreModel: userid, publickkey, refreshToken.
+    - userId is ref to ShopModel.
+    - signIn with jwt + rsa , each user will have 1 private + publickey -> save this public in server to verify
+
+    there are two ways: symmetric with out query db and asymetric that need to query db to get public key.
+
+    => decide to use symmetric
+    - get formatted data response.
+      - problem:
+        - lost accesstoken
+        - access multiple device
+        - only 1 devide
+        - blacklist + whitelist ????
+        - create token error but still create db record
 --------------------
 inistal middlewae :
   - dev dependency
@@ -49,6 +116,7 @@ inistal middlewae :
     - compressiion: reduce response data size -> increase performance -> https://www.youtube.com/watch?v=bIFq0fxNLoE
     - usefull package: https://www.becomebetterprogrammer.com/how-to-use-third-party-middleware-with-express-js-and-typescript/
     - cors: https://www.npmjs.com/package/cors#configuring-cors
+  
 - --------------
 Delpyment
 - render
@@ -61,7 +129,7 @@ code pattern
   github: https://github.com/anonystick/learning-design-patterns
   - lv2: split function and, in the main we still use if else but we return the function.'
   - good: split function + object condition -> in the main function will return the value of object with type.
-- ```
+```
 const getPricesStrategies = {
   preOrder: preOrderPriceFn,
   promotion: promotionPriceFn
@@ -162,7 +230,8 @@ if(isOk(user)){
 }
 
 ```
-try to apply in the http error code handling
+
+Trying to apply in the http error code handling
 => this is the same at strategy pattern.
 ----------------------
 bridge pattern: same interface but do different behavior 
@@ -205,10 +274,37 @@ Reference
 ---------------
 utils: commom function that small code 
 helper: functions that do specific purpose
+---------------
+Unitest: https://web3usecase.co/mastering-unit-testing-best-practices-4f9ecad894a0
+- stubs: fake response data 
+- spies
+
+Testing rules:
+- independece: don't reply on other test
+- one assertion per test: 1 happy, 1 fail
+- focus on happy case 
+-----------
   
 Issues
 - eslint???
 - log folder is not working ???
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 1. Setup
@@ -284,7 +380,7 @@ node -v > .nvmrc
 - setup engine in package.json
 
 ## 2. Start Coding
-1. Tutorial: https://www.youtube.com/watch?v=BWUi6BS9T5Y&t=0s 
+1. Tutorial setup project: https://www.youtube.com/watch?v=BWUi6BS9T5Y&t=0s 
 2. Conect Mongodb
 3. Log with pino
 
