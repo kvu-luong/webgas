@@ -1,8 +1,14 @@
-import express, { Express, Request, Response, RequestHandler } from 'express';
+import express, { Express, RequestHandler } from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import compression from 'compression';
+
+import { dbConnect } from '@utils/dbConnect';
+import { logger } from '@utils/logger';
+import { checkDBConnectOverLoad } from '@helpers/check.connect';
+import routes from './routers';
+import config from '@typeConfig/index';
 
 const app: Express = express();
 
@@ -25,29 +31,25 @@ app.use(
         // don't compress responses with this request header
         return false;
       }
-
       // fallback to standard filter function
       return compression.filter(req, res);
     },
   }) as RequestHandler
 );
 
-const PORT: number = process.env.PORT ? Number(process.env.PORT) : 5000;
-
-import { connectDB } from '@utils/dbConnect';
-import { logger } from '@utils/logger';
-import routes from './routers';
-
 //Routers
 routes(app);
 
+// DB
+dbConnect;
+checkDBConnectOverLoad();
+
+// Setup server
+const PORT: number = config.app.port;
 const startServer = (): Promise<void> => {
   return new Promise<void>((resolve) => {
     app.listen(PORT, async () => {
       logger.info(`App is running at PORT: ${PORT}`);
-
-      // DB
-      await connectDB();
 
       resolve();
     });
@@ -55,7 +57,3 @@ const startServer = (): Promise<void> => {
 };
 
 export { startServer };
-
-function next() {
-  throw new Error('Function not implemented.');
-}
