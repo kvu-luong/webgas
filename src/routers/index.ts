@@ -1,7 +1,8 @@
-import { Express, Request, Response } from 'express';
+import { Express, NextFunction, Request, Response } from 'express';
 import configs from '@typeConfig/index';
-import UserRouter from './user';
-import AccessRouter from './access';
+import UserRouter from './user.index';
+import AccessRouter from './access.index';
+import { CustomError } from '@declareTypes/error';
 
 function routes(app: Express) {
   app.get('/healthcheck', (_req: Request, res: Response) => {
@@ -9,12 +10,25 @@ function routes(app: Express) {
       message: 'health check ok',
     });
   });
-  // check apikey: right version or partner
-
-  // check permission: which package there use : normal, vip, super star.
 
   app.use(configs.commomConfig.app.apiVersionRoute, UserRouter);
   app.use(configs.commomConfig.app.apiVersionRoute, AccessRouter);
+
+  // Handle 404
+  app.use((_req: Request, _res: Response, next: NextFunction) => {
+    const error: CustomError = new Error('Not Found');
+    error.status = 404;
+    next(error);
+  });
+
+  // Handle an unexpected error & listen to custom throw error message
+  app.use((error: CustomError, _req: Request, res: Response, _next: NextFunction) => {
+    const statusCode = error.status || 500;
+    return res.status(statusCode).json({
+      statusCode,
+      message: error.message || 'Internal Server Error',
+    });
+  });
 }
 
 export default routes;

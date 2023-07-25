@@ -1,13 +1,13 @@
 ### signup
 @uri=http://localhost:4000/v1/api/
 
-POST {{uri}}shop/signup
+POST {{uri}}shop/signupx
 Content-Type: application/json
 x-api-key: 5second
 
 {
     "name": "Shop A",
-    "email": "shopa2211w@yopmail.com",
+    "email": "shopa22131sw@yopmail.com",
     "password": "123123"
 }
 

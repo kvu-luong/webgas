@@ -136,6 +136,34 @@ chmod +x .husky/commit-msg
 
   part 4: error handler
   https://www.youtube.com/watch?v=hyF1S0nFS7A
+
+  - error with router: 404, listen throw error 
+  - move try catch to HOC 
+    ```
+    export const asyncHandler = (fn:any) => {
+      return (req: Request, res: Response, next: NextFunction) => {
+        fn(req, res, next).catch(next);
+      }
+    }
+
+
+    export default class AccessController {
+      static signUp = async (req: Request, res: Response) => {
+        return res.status(201).json(await AccessService.signUp(req.body));
+      };
+    }
+    ```
+
+    - success response
+    ```
+    {
+      statusCode: team_code_define
+      message: information
+      metadata: object
+      options: addition information
+    }
+    ```
+  - 
 --------------------
 inistal middlewae :
   - dev dependency

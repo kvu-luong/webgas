@@ -26,7 +26,8 @@
       "@controllers/*": ["./src/controllers/*"],
       "@models/*": ["./src/models/*"],
       "@auth/*": ["./src/auth/*"],
-      "@services/*": ["./src/services/*"]
+      "@services/*": ["./src/services/*"],
+      "@core/*": ["./src/core/*"]
     }
   },
   "include": ["src/**/*"],
