@@ -122,6 +122,24 @@ chmod +x .husky/commit-msg
         objKey?: IApiKey; // Replace IApiKey with the actual type of objKey
       }
     }
+
+    Then:
+    req.objKey to get the value.
+    ```
+    Alternative way on the router, 
+    ```
+    (req: Request<{objKey: IApiKey}>)
+    Then
+    req.params.objKey to use it.
+    ```
+
+    In the middleware, we still need to custom the Request to pass typescript checking
+    ```
+    interface CustomRequest extends Request {
+        objKey?: IApiKey;
+      }
+    Then:
+    req.objKey = objKey to use it in other router too.
     ```
 
      - mongo record auto delete with **expires** in Schema
@@ -163,7 +181,43 @@ chmod +x .husky/commit-msg
       options: addition information
     }
     ```
-  - 
+
+
+  part 5:login 
+
+  - sign up -> return accessToken, refreshToken -> let user go ahead without login
+  - login -> create new AT, RF token -> input username/ password to login to server.
+    - conditions:
+      - email exist
+      - match password
+      - create AT vs RT and ave
+      - save refresh token in db: still access to db -> but It reduce time.
+  - flow code: model -> service -> contoller -> router 
+
+
+  part 6: add authentication to check token before goto other router.
+    - header:
+      - x-api-key: partner id 
+      - x-client-id: userId ???? -> extract from : send to server to let server check right userId with the right accestoken then get db to verify to make this user still exist. And make the code more flexible ( don't need to check userId after decode toKen )
+      - authentication token 
+
+    - defined config error.
+
+    session: platform
+    accessToken: accessToken reduce request to db
+    username/password: 
+    https://github.com/trangchongcheng/refreshToken/blob/main/auto-fresh-token-by-interceptors-axios
+    or this video: https://www.youtube.com/watch?v=cI_xxZDYYPg
+
+    client don't have to send refresh token every time to the server.
+
+    server still need to check userId exist to make sure this user is still avalible in our system in case this user have been deleted.
+
+
+   ** multiple platform:**
+    - add field in header param: web/android/ in KeyStore to check userId + platform 
+
+    Logout will delete keyStore record, but if use don't logout then use the oldRefreshToken -> flag here.
 --------------------
 inistal middlewae :
   - dev dependency
@@ -328,8 +382,9 @@ Reference
 - https://github.com/duyhoangptit/duyhoangptit
 
 ---------------
-utils: commom function that small code 
-helper: functions that do specific purpose
+utils: commom function that small code, not dependency on toher
+helper: functions that do specific purpose related to 1 modules.
+
 ---------------
 Unitest: https://web3usecase.co/mastering-unit-testing-best-practices-4f9ecad894a0
 - stubs: fake response data 

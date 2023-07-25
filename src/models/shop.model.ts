@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const DOCUMENT_NAME = 'Shop';
 const COLLECTION_NAME = 'Shops';
 
-interface IShop {
+export interface IShop {
   name: string;
   email: string;
   password?: string;

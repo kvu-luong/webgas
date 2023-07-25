@@ -3,3 +3,17 @@ export type SignUp = {
   email: string;
   password: string;
 };
+
+export type Login = {
+  email: string;
+  password: string;
+  refreshToken?: string | null;
+};
+
+export type ShopFields = {
+  email?: number;
+  password?: number;
+  name?: number;
+  status?: number;
+  roles?: number;
+};

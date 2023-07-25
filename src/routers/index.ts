@@ -3,6 +3,7 @@ import configs from '@typeConfig/index';
 import UserRouter from './user.index';
 import AccessRouter from './access.index';
 import { CustomError } from '@declareTypes/error';
+import { Errors } from '@utils/error';
 
 function routes(app: Express) {
   app.get('/healthcheck', (_req: Request, res: Response) => {
@@ -16,17 +17,19 @@ function routes(app: Express) {
 
   // Handle 404
   app.use((_req: Request, _res: Response, next: NextFunction) => {
-    const error: CustomError = new Error('Not Found');
-    error.status = 404;
+    const { statusCode, message } = Errors.NOT_FOUND;
+    const error: CustomError = new Error(message);
+    error.statusCode = statusCode;
     next(error);
   });
 
   // Handle an unexpected error & listen to custom throw error message
   app.use((error: CustomError, _req: Request, res: Response, _next: NextFunction) => {
-    const statusCode = error.status || 500;
+    const { statusCode: defaultStatusCode, message } = Errors.INTERNAL_SERVER_ERROR;
+    const statusCode = error.statusCode || defaultStatusCode;
     return res.status(statusCode).json({
       statusCode,
-      message: error.message || 'Internal Server Error',
+      message: error.message || message,
     });
   });
 }

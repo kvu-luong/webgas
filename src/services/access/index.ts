@@ -1,31 +1,61 @@
-import { argon2i } from 'argon2-ffi';
-import crypto from 'crypto';
-import util from 'util';
-
 import ShopModel from '@models/shop.model';
-import { SignUp } from '@declareTypes/access';
-import { createTokenPair } from '@auth/authUtils';
 import configs from '@typeConfig/index';
+import { Login, SignUp } from '@declareTypes/access';
+import { createTokenPair } from '@auth/authUtils';
 import { getIntoData } from '@utils/index';
-import { BadRequestError } from '@core/error.response';
-import { CREATED } from '@core/success.response';
+import { AuthFailureError, BadRequestError } from '@core/error.response';
+import { generateHashPassword, validatePassword } from '@helpers/common';
+import { findShopByEmail } from './shop';
+import StatusCode from '@utils/statusCode';
+import { KeyStoreService } from '@services/keyStore';
+import { Tokens } from '@declareTypes/auth';
+import { DeleteResult } from 'mongodb';
 
 export default class AccessService {
+  static login = async ({ email, password, refreshToken = null }: Login) => {
+    // verify email
+    const shopWithThisEmail = await findShopByEmail({ email });
+    if (!shopWithThisEmail) {
+      throw new BadRequestError('Shop is not exist!');
+    }
+
+    // // verify password
+    const hashPassword = shopWithThisEmail.password as string;
+    const isValidPassword = await validatePassword(hashPassword, password);
+    if (!isValidPassword) throw new AuthFailureError('Authentication error');
+
+    // create AT and RT
+    const tokens: Tokens = await createTokenPair({
+      userId: shopWithThisEmail._id,
+    });
+
+    // save RT
+    const userId = shopWithThisEmail._id;
+    await KeyStoreService.saveRefreshToken({
+      userId: userId.toString(),
+      refreshToken: tokens.refreshToken,
+    });
+
+    return {
+      statusCode: StatusCode.CREATED,
+      metadata: {
+        ...getIntoData({ fields: ['name', 'email', '_id'], object: shopWithThisEmail }),
+        tokens,
+      },
+    };
+  };
+
   static signUp = async ({ name, email, password }: SignUp) => {
     const shopWithThisEmail = await ShopModel.findOne({ email });
     if (shopWithThisEmail) {
-      throw new BadRequestError('Already registedx');
+      throw new BadRequestError('Already registed');
     }
 
-    // passowrd
-    const getRandomBytes = util.promisify(crypto.randomBytes);
-    const salt = await getRandomBytes(32);
-    const hashedPassword = await argon2i.hash(password, salt);
-
+    const hashPasword = await generateHashPassword(password);
     const newShop = await ShopModel.create({
       name,
       email,
-      password: hashedPassword,
+      password: hashPasword,
       roles: [configs.userRole.SHOP],
     });
 
@@ -37,7 +67,7 @@ export default class AccessService {
       });
 
       return {
-        statusCode: 201,
+        statusCode: StatusCode.CREATED,
         metadata: {
           ...getIntoData({ fields: ['name', 'email', '_id'], object: newShop }),
           tokens,
@@ -46,8 +76,13 @@ export default class AccessService {
     }
 
     return {
-      statusCode: 201,
+      statusCode: StatusCode.CREATED,
       metadata: null,
     };
+  };
+
+  static logout = async (keyStoreId: string): Promise<boolean> => {
+    const delKey = await KeyStoreService.removeById(keyStoreId);
+    return !!delKey.deletedCount;
   };
 }

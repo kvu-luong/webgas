@@ -30,6 +30,6 @@
       "@core/*": ["./src/core/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "global.d.ts"],
   "exclude": ["node_modules", "**/*.spec.t", "dist", "build"]
 }

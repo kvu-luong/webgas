@@ -54,14 +54,21 @@ const prod: Config = {
 const config: Record<string, Config> = { dev, prod };
 const env = process.env.NODE_ENV || 'dev';
 
-const RoleShop = {
+const ROLE_SHOP = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
   EDITER: 'EDITOR',
   ADMIN: 'ADMIN',
 };
 
+const HEADER = {
+  API_KEY: 'x-api-key',
+  AUTHORIZATION: 'authorization',
+  CLIENT_ID: 'x-client-id',
+};
+
 export default {
   commomConfig: config[env],
-  userRole: RoleShop,
+  userRole: ROLE_SHOP,
+  header: HEADER,
 };

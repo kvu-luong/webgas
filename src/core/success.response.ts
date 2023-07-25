@@ -10,7 +10,7 @@ class SuccessReponse {
     message,
     statusCode = StatusCode.OK,
     reasonStatusCode = ReasonCode.OK,
-    metadata = {},
+    metadata,
   }: {
     message?: string;
     statusCode: number;
