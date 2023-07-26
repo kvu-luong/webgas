@@ -1,0 +1,23 @@
+### signup
+@uri=http://localhost:4000/v1/api/
+
+### Login
+POST {{uri}}shop/login
+Content-Type: application/json
+x-api-key: 5second
+
+{
+    "email": "shopa22131sw@yopmail.com",
+    "password": "123123"
+}
+
+
+### Get a new tokens with refreshToken
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJmNzVhOTg0NjcyNDAxMzUyMWM0MTEiLCJpYXQiOjE2OTAzOTUzOTksImV4cCI6MTY5MDM5ODk5OX0.EANubL47pxmGzcahdz3RWTCqsN5Nmz66RICWkMparZg
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJmNzVhOTg0NjcyNDAxMzUyMWM0MTEiLCJpYXQiOjE2OTAzOTUzOTksImV4cCI6MTY5ODE3MTM5OX0.hXgfLY7GtMMcK5XoPWrvG0cPWo0OKeEC4ZrPLccj0x4
+POST {{uri}}shop/getTokenByRefreshToken
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+x-token-id: {{refreshToken}}
+authorization: Bearer {{accessToken}}

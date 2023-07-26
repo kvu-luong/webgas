@@ -25,7 +25,7 @@ const dev: Config = {
     access_secret: process.env.JWT_ACCESS_SECRET || 'accessSecret',
     access_expiration: process.env.JWT_ACCESS_EXPIRATION || '1h',
     refresh_secret: process.env.JWT_REFRESH_SECRET || 'refreshSecret',
-    refresh_expiration: Number(process.env.JWT_REFRESH_EXPIRATION) || 90,
+    refresh_expiration: process.env.JWT_REFRESH_EXPIRATION || '30d',
   },
 };
 
@@ -47,7 +47,7 @@ const prod: Config = {
     access_secret: process.env.JWT_ACCESS_SECRET || 'accessSecret',
     access_expiration: process.env.JWT_ACCESS_EXPIRATION || '1h',
     refresh_secret: process.env.JWT_REFRESH_SECRET || 'refreshSecret',
-    refresh_expiration: Number(process.env.JWT_REFRESH_EXPIRATION) || 90,
+    refresh_expiration: process.env.JWT_REFRESH_EXPIRATION || '30d',
   },
 };
 
@@ -65,6 +65,7 @@ const HEADER = {
   API_KEY: 'x-api-key',
   AUTHORIZATION: 'authorization',
   CLIENT_ID: 'x-client-id',
+  REFRESH_TOKEN: 'x-token-id',
 };
 
 export default {

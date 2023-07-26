@@ -1,15 +1,15 @@
 import ShopModel from '@models/shop.model';
 import configs from '@typeConfig/index';
 import { Login, SignUp } from '@declareTypes/access';
-import { createTokenPair } from '@auth/authUtils';
+import { createTokenPair, verifyJWT } from '@auth/authUtils';
 import { getIntoData } from '@utils/index';
-import { AuthFailureError, BadRequestError } from '@core/error.response';
+import { AuthFailureError, BadRequestError, ForbiddenError } from '@core/error.response';
 import { generateHashPassword, validatePassword } from '@helpers/common';
-import { findShopByEmail } from './shop';
+import { findShopByEmail, findShopById } from './shop';
 import StatusCode from '@utils/statusCode';
 import { KeyStoreService } from '@services/keyStore';
 import { Tokens } from '@declareTypes/auth';
-import { DeleteResult } from 'mongodb';
+import { IKeyStore } from '@models/keyStore.model';
 
 export default class AccessService {
   static login = async ({ email, password, refreshToken = null }: Login) => {
@@ -26,7 +26,7 @@ export default class AccessService {
 
     // create AT and RT
     const tokens: Tokens = await createTokenPair({
-      userId: shopWithThisEmail._id,
+      userId: shopWithThisEmail._id?.toString(),
     });
 
     // save RT
@@ -63,7 +63,7 @@ export default class AccessService {
       // TODO: Method 1: Handle JWT with Asynchonous: publicKey -> verify token, privateKey -> sign token
       // Method 2: Handle JWT with secretkey
       const tokens = await createTokenPair({
-        userId: newShop._id,
+        userId: newShop._id?.toString(),
       });
 
       return {
@@ -84,5 +84,50 @@ export default class AccessService {
   static logout = async (keyStoreId: string): Promise<boolean> => {
     const delKey = await KeyStoreService.removeById(keyStoreId);
     return !!delKey.deletedCount;
+  };
+
+  static getTokenByRefreshToken = async ({
+    refreshToken,
+    keyStoreObj,
+    userId,
+  }: {
+    refreshToken: string;
+    userId: string;
+    keyStoreObj: IKeyStore;
+  }) => {
+    // checking refreshTokenUsed
+    // checking refreshToken
+    // create a new tokens
+    // update refreshTokenUsed and refreshToken
+
+    if (keyStoreObj.refreshTokensUsed.includes(refreshToken)) {
+      // delete this suspect, may update notify and retry option here
+      await KeyStoreService.removeByUserId(userId);
+      throw new ForbiddenError('Something went wrong with authentication !!! Please relogin');
+    }
+
+    if (keyStoreObj.refreshToken !== refreshToken)
+      throw new AuthFailureError('Shop not registered');
+
+    const foundShop = await findShopById({ userId });
+    if (!foundShop) throw new AuthFailureError('Shop not registered.');
+
+    const tokens = await createTokenPair({
+      userId,
+    });
+
+    const update = await KeyStoreService.updateToken({
+      keyStoreId: keyStoreObj._id?.toString(),
+      newRefreshToken: tokens.refreshToken,
+      refreshTokenUsed: refreshToken,
+    });
+
+    return {
+      user: {
+        userId,
+        email: foundShop.email,
+      },
+      tokens,
+    };
   };
 }

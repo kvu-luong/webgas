@@ -8,6 +8,6 @@ router.post('/shop/login', asyncHandler(AccessController.login));
 router.post('/shop/signup', asyncHandler(AccessController.signUp));
 
 router.use(authentication);
-router.post('/shop/login', asyncHandler(AccessController.login));
 router.post('/shop/logout', asyncHandler(AccessController.logout));
+router.post('/shop/getTokenByRefreshToken', asyncHandler(AccessController.getTokenByRefreshToken));
 export default router;

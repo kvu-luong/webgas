@@ -17,3 +17,7 @@ export type ShopFields = {
   status?: number;
   roles?: number;
 };
+
+export type Payload = {
+  userId: string;
+};

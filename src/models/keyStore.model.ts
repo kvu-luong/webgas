@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export interface IKeyStore {
+export interface IKeyStore extends Document {
   user: Schema.Types.ObjectId;
   refreshToken: string;
   refreshTokensUsed: string[];

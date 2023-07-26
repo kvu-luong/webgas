@@ -55,7 +55,7 @@ chmod +x .husky/commit-msg
             "body": [
               "import { Schema, model, Document } from 'mongoose';",
               "",
-              "export interface I${1:ModelName} {",
+              "export interface I${1:ModelName} extends Document {",
               "\tpublicKey: string;",
               "\tprivateKey: string;",
               "}",
@@ -218,6 +218,17 @@ chmod +x .husky/commit-msg
     - add field in header param: web/android/ in KeyStore to check userId + platform 
 
     Logout will delete keyStore record, but if use don't logout then use the oldRefreshToken -> flag here.
+
+
+    Part 7:
+    Handle RefreshToken:https://www.youtube.com/watch?v=S8yvvRag6Kk
+    check used old token
+    create new token pair and update the keystore
+    send both accessToken and refreshToken to the server -> FE must send resquest to get token before expired
+    - update authentication middle router with refreshToken
+    - mongo query update: https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/
+      -> if the field does not exist -> then don't do anything.
+    - 
 --------------------
 inistal middlewae :
   - dev dependency

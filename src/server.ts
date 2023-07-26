@@ -5,10 +5,8 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 
 import { dbConnect } from '@utils/dbConnect';
-import { logger } from '@utils/logger';
 import { checkDBConnectOverLoad } from '@helpers/check.connect';
 import routes from './routers';
-import configs from '@typeConfig/index';
 import { apiKeyMiddleware, permissionMiddleware } from '@auth/checkAuth';
 
 const app: Express = express();
