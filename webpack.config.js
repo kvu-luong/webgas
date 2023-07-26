@@ -37,5 +37,6 @@ module.exports = (env) => {
     plugins: [new CleanWebpackPlugin(), new Dotenv()],
     externals: [nodeExternals()],
     devtool: isProduction ? 'source-map' : 'inline-source-map',
+    target: 'node',
   };
 };

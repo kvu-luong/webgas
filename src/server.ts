@@ -52,18 +52,5 @@ routes(app);
 
 // DB
 dbConnect;
-// checkDBConnectOverLoad();
 
-// Setup server
-const PORT: number = configs.commomConfig.app.port;
-const startServer = (): Promise<void> => {
-  return new Promise<void>((resolve) => {
-    app.listen(PORT, async () => {
-      logger.info(`App is running at PORT: ${PORT}`);
-
-      resolve();
-    });
-  });
-};
-
-export { startServer };
+export { app };

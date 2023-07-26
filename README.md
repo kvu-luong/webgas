@@ -395,7 +395,89 @@ Testing rules:
 - one assertion per test: 1 happy, 1 fail
 - focus on happy case 
 -----------
-  
+News in ES14 2023
+- toSorted, toReversed, with ( splice ) -> copy value to new address
+
+https://github.com/tc39/proposals
+
+https://www.proposals.es/
+
+-------------
+Optimistic and Pessimistic key distributed in big system to handle transaction concurrent from multiple user 
+https://www.youtube.com/watch?v=UjiGO37qugY&list=PLw0w5s5b9NK5fDx409WXgT06Zm4P83yiA&index=14
+
+opti: multiple request but one 1 request handled at the time like a bank.
+pess: multiple request comming but then checking outcomming like supper market
+ ----------------- 
+Stream in nodejs
+
+https://www.youtube.com/watch?v=AiPuHlyP8qM&list=PLw0w5s5b9NK5fDx409WXgT06Zm4P83yiA&index=10
+
+
+=> reduce using ram, cpu of server
+ --------------
+EventLoop
+
+https://www.youtube.com/watch?v=GVx47SJYZhI&list=PLw0w5s5b9NK5fDx409WXgT06Zm4P83yiA&index=11
+
+why single thread? 
+  - support manage: edit/create/.. DOM : 1 done then after
+
+2 part in javascript : memory heap and call stack
+
+eventLoop: device asynchonous and synchonous task
+
+allway microtask first until this threead done. see task -> put this to queue then continue to execute.
+microTask ( job queue )
+  - process.nextTick: create next queu 
+  - promise
+  - aysnc/awat
+general: immediately or after microtask
+  console.log
+  code outside micro, macro 
+macroTask ( task queue )
+  - setTimeout
+  - setInterval
+  - setImmediate
+  - I/O
+  - UI render
+
+In micro/ and: we still need to decide base on the type: timers, panding, ide, poll, check, close
+https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick
+
+
+example:
+```
+console.log(0)
+
+setTimeout(function(){
+    console.log(1);
+    new Promise((resolve, reject) => {
+        console.log('resolve')
+        resolve('xks')
+    }).then((val) => console.log(val))
+});
+
+new Promise((resolve, reject) => {
+    console.log(2)
+    resolve(3)
+    setTimeout(() => console.log('time in micro'))
+}).then((val) => console.log(val)).then(() => console.log('then 12'))
+
+new Promise((resolve, reject) => {
+    console.log(4)
+    resolve(5)
+}).then((val) => console.log(val)).then(() => console.log(
+    'thehs 233'
+))
+
+console.log(6);
+// general: execute immediate or before micro
+// micro: check first
+// macro: move immediately and then handle at the end of loop.
+// 0, 2, 4, 6, 3, 5, tjem 12. thens 233, 1, resolve, xks, time in micro 
+```
+ ------------
 Issues
 - eslint???
 - log folder is not working ???

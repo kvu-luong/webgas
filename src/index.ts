@@ -1,5 +1,7 @@
-const envConfig = require("dotenv").config();
-console.log(`Environment configurations:`,envConfig.parsed);
+const envConfig = require('dotenv').config();
+console.log(`Environment configurations:`, envConfig.parsed);
 
-import { startServer } from './server';
-startServer().catch(console.error);
+import configs from './configs';
+import { app } from './server';
+const PORT: number = configs.commomConfig.app.port;
+app.listen(PORT, () => console.log(`Server is running on port::${PORT}`));
