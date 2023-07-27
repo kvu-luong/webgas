@@ -49,7 +49,7 @@ const shopSchema = new Schema<IShop>(
   {
     timestamps: true,
     collection: COLLECTION_NAME,
-  }
+  },
 );
 
 //Export the model

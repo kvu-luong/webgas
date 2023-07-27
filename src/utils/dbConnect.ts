@@ -17,7 +17,7 @@ const mongoConnectDB: MongoConnectFunction = (): void => {
 
   mongoose
     .connect(DB_URI, options)
-    .then((_) => {
+    .then(() => {
       console.log('Connected Mongodb Success');
       countConnect();
     })

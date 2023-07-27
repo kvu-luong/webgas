@@ -240,6 +240,14 @@ chmod +x .husky/commit-msg
 
     When update the product type, this will break the rule SOLID in ProductFactory -> therefore, we need to updated 
 
+    - update product model: 
+      with slug , pre in mongodb.
+      pagination type:
+        - scroll media
+        - page: ecommerce
+      apply repository structure.
+      BULLQUEUE: https://docs.nestjs.com/techniques/queues
+      
 --------------------
 inistal middlewae :
   - dev dependency

@@ -28,7 +28,7 @@ const keyStoreSchema = new Schema<IKeyStore>(
   {
     timestamps: true,
     collection: COLLECTION_NAME,
-  }
+  },
 );
 
 export default model<IKeyStore & Document>(DOCUMENT_NAME, keyStoreSchema);

@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 
 import { dbConnect } from '@utils/dbConnect';
-import { checkDBConnectOverLoad } from '@helpers/check.connect';
 import routes from './routers';
 import { apiKeyMiddleware, permissionMiddleware } from '@auth/checkAuth';
 
@@ -19,7 +18,7 @@ app.use(
   bodyParser.urlencoded({
     limit: '50mb',
     extended: true,
-  })
+  }),
 );
 app.use(
   compression({
@@ -33,13 +32,13 @@ app.use(
       // fallback to standard filter function
       return compression.filter(req, res);
     },
-  }) as RequestHandler
+  }) as RequestHandler,
 );
 app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
-  })
+  }),
 );
 
 app.use(apiKeyMiddleware);

@@ -45,7 +45,7 @@ export class ForbiddenError extends ErrorResponse {
 export class InternalError extends ErrorResponse {
   constructor(
     message = ReasonStatusCode.INTERNAL_SERVER_ERROR,
-    statusCode = StatusCode.INTERNAL_SERVER_ERROR
+    statusCode = StatusCode.INTERNAL_SERVER_ERROR,
   ) {
     super(message, statusCode);
   }

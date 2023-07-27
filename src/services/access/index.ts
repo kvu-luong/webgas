@@ -1,7 +1,7 @@
 import ShopModel from '@models/shop.model';
 import configs from '@typeConfig/index';
 import { Login, SignUp } from '@declareTypes/access';
-import { createTokenPair, verifyJWT } from '@auth/authUtils';
+import { createTokenPair } from '@auth/authUtils';
 import { getIntoData } from '@utils/index';
 import { AuthFailureError, BadRequestError, ForbiddenError } from '@core/error.response';
 import { generateHashPassword, validatePassword } from '@helpers/common';
@@ -12,7 +12,7 @@ import { Tokens } from '@declareTypes/auth';
 import { IKeyStore } from '@models/keyStore.model';
 
 export default class AccessService {
-  static login = async ({ email, password, refreshToken = null }: Login) => {
+  static login = async ({ email, password }: Login) => {
     // verify email
     const shopWithThisEmail = await findShopByEmail({ email });
     if (!shopWithThisEmail) {
@@ -116,7 +116,7 @@ export default class AccessService {
       userId,
     });
 
-    const update = await KeyStoreService.updateToken({
+    await KeyStoreService.updateToken({
       keyStoreId: keyStoreObj._id?.toString(),
       newRefreshToken: tokens.refreshToken,
       refreshTokenUsed: refreshToken,

@@ -15,8 +15,10 @@ export default class ProductFactory {
     type: 'Clothing',
     payload
     */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static productRegistry: Record<string, any> = {}; // type-class
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static registerProductType(type: string, classRef: any) {
     ProductFactory.productRegistry[type] = classRef;
   }

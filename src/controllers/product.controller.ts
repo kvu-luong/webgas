@@ -1,10 +1,10 @@
 import { CREATED } from '@core/success.response';
-import { NextFunction, Response } from 'express';
+import { Response } from 'express';
 import ProductFactory from '@services/product';
 import { CustomRequest } from 'global';
 
 export class ProductController {
-  static createProduct = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  static createProduct = async (req: CustomRequest, res: Response) => {
     return new CREATED({
       message: 'Create Product Success',
       metadata: await ProductFactory.createProduct({

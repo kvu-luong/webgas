@@ -36,7 +36,7 @@ const apiKeySchema = new Schema<IApiKey>(
   {
     timestamps: true,
     collection: COLLECTION_NAME,
-  }
+  },
 );
 
 export default model<IApiKey & Document>(DOCUMENT_NAME, apiKeySchema);

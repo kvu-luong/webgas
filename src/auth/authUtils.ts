@@ -2,8 +2,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import configs from '@typeConfig/index';
 import { Tokens } from '@declareTypes/auth';
 import { asyncHandler } from '@helpers/asyncHandler';
-import { NextFunction, Request, Response } from 'express';
-import { AuthFailureError, NotFoudError } from '@core/error.response';
+import { NextFunction, Response } from 'express';
+import { AuthFailureError } from '@core/error.response';
 import { KeyStoreService } from '@services/keyStore';
 import { Errors } from '@utils/error';
 import { CustomRequest } from 'global';
@@ -31,8 +31,8 @@ export const createTokenPair = async (payload: Payload): Promise<Tokens> => {
     });
 
     return { accessToken, refreshToken };
-  } catch (error: any) {
-    return error;
+  } catch (error) {
+    throw new Error('Unable to generate token!!!');
   }
 };
 
@@ -79,12 +79,12 @@ export const authentication = asyncHandler(
     } catch (error) {
       throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message);
     }
-  }
+  },
 );
 
 export const verifyJWT = async (
   token: string,
-  secrectKey = configs.commomConfig.jwt.access_secret
+  secrectKey = configs.commomConfig.jwt.access_secret,
 ) => {
   return (await jwt.verify(token, secrectKey)) as JwtPayload;
 };

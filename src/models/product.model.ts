@@ -53,7 +53,7 @@ const productSchema = new Schema<IProduct>(
   {
     timestamps: true,
     collection: COLLECTION_NAME,
-  }
+  },
 );
 export const ProductModel = model<IProduct & Document>(DOCUMENT_NAME, productSchema);
 
@@ -73,7 +73,7 @@ const clothingSchema = new Schema<IClothing>(
   {
     collection: 'clothes',
     timestamps: true,
-  }
+  },
 );
 export const ClothingModel = model<IClothing & Document>(ProductType['CLOTHING'], clothingSchema);
 
@@ -94,11 +94,11 @@ const electronicSchema = new Schema<IElectronic>(
   {
     collection: 'electronics',
     timestamps: true,
-  }
+  },
 );
 export const ElectronicModel = model<IClothing & Document>(
   ProductType['ELECTRONIC'],
-  electronicSchema
+  electronicSchema,
 );
 
 export interface IFurniture extends Document {
@@ -118,9 +118,9 @@ const furnitureSchema = new Schema<IFurniture>(
   {
     collection: 'furnitures',
     timestamps: true,
-  }
+  },
 );
 export const FurnitureModel = model<IClothing & Document>(
   ProductType['FURNITURE'],
-  furnitureSchema
+  furnitureSchema,
 );

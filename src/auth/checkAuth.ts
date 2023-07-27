@@ -8,7 +8,7 @@ import { CustomRequest } from 'global';
 export const apiKeyMiddleware = async (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const key = req.headers[configs.header.API_KEY]?.toString();
@@ -32,7 +32,7 @@ export const apiKeyMiddleware = async (
 };
 
 export const permissionMiddleware = (
-  permission: string
+  permission: string,
 ): ((req: CustomRequest, res: Response, next: NextFunction) => void) => {
   return (req: CustomRequest, res: Response, next: NextFunction) => {
     if (!req?.objKey) {

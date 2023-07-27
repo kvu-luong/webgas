@@ -59,7 +59,7 @@ export class KeyStoreService {
         $addToSet: {
           refreshTokensUsed: refreshTokenUsed,
         },
-      }
+      },
     );
   };
 }

@@ -1,4 +1,3 @@
-import configs from '@typeConfig/index';
 import { argon2i } from 'argon2-ffi';
 import crypto from 'crypto';
 import util from 'util';
@@ -12,7 +11,7 @@ export const generateHashPassword = async (password: string): Promise<string> =>
 
 export const validatePassword = async (
   hashPassword: string,
-  password: string
+  password: string,
 ): Promise<boolean> => {
   return await argon2i.verify(hashPassword, password);
 };

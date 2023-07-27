@@ -26,7 +26,7 @@ function routes(app: Express) {
   });
 
   // Handle an unexpected error & listen to custom throw error message
-  app.use((error: CustomError, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((error: CustomError, _req: Request, res: Response) => {
     const { statusCode: defaultStatusCode, message } = Errors.INTERNAL_SERVER_ERROR;
     const statusCode = error.statusCode || defaultStatusCode;
     return res.status(statusCode).json({

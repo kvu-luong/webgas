@@ -1,10 +1,10 @@
-const pino = require('pino');
-const day = require('dayjs');
-const path = require('path');
-const { logObject } = require('@utils/constant');
+import pino from 'pino';
+import day from 'dayjs';
+import path from 'path';
+import { logObject } from '@utils/constant';
 const projectRoot = path.resolve(__dirname, './');
 const currentDay = day().format('DD_MM_YYYY');
-const LOG_STATE:string|undefined = process.env.LOGGGER;
+const LOG_STATE: string | undefined = process.env.LOGGGER;
 
 const consoleConfig = [
   {
@@ -33,7 +33,8 @@ let writeLogConfig = [
 
 writeLogConfig = LOG_STATE === logObject.on ? writeLogConfig : [];
 
-const configuration = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const configuration: any = {
   transport: {
     targets: [...consoleConfig, ...writeLogConfig],
   },
