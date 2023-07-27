@@ -2,6 +2,7 @@ import { Express, NextFunction, Request, Response } from 'express';
 import configs from '@typeConfig/index';
 import UserRouter from './user.index';
 import AccessRouter from './access.index';
+import ProductRouter from './product.index';
 import { CustomError } from '@declareTypes/error';
 import { Errors } from '@utils/error';
 
@@ -14,6 +15,7 @@ function routes(app: Express) {
 
   app.use(configs.commomConfig.app.apiVersionRoute, UserRouter);
   app.use(configs.commomConfig.app.apiVersionRoute, AccessRouter);
+  app.use(configs.commomConfig.app.apiVersionRoute, ProductRouter);
 
   // Handle 404
   app.use((_req: Request, _res: Response, next: NextFunction) => {

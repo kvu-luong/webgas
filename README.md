@@ -228,7 +228,15 @@ chmod +x .husky/commit-msg
     - update authentication middle router with refreshToken
     - mongo query update: https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/
       -> if the field does not exist -> then don't do anything.
-    - 
+
+
+    part 8: product section
+    - db design: polymorphic pattern. Commom on product, detail in new collection attribute
+    - mongodb: 16MB on doc, 100 nested on doc , max collection 32TB
+    - step: model - business logic with **factory pattern**.
+    - But we need to **handle asynchonous** when 1 is fail and other procoss save data is success ???
+
+    - id of child must be the same at parent -> query and know where it belong to.
 --------------------
 inistal middlewae :
   - dev dependency
