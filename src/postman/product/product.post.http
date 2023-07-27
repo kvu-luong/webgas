@@ -20,14 +20,14 @@ x-client-id: 64bf75a9846724013521c411
 authorization: Bearer {{accessToken}}
 
 {
-    "product_name": "product optimaize $randomColor",
+    "product_name": "product optimaize {{$guid}}",
     "product_description": "product description",
     "product_price": 50,
     "product_type": "Clothing",
     "product_thumb": "Product thumnail",
     "product_quantity": 10,
     "product_attributes": {
-        "brand": "Levi s",
+        "brand": "Levi xs",
         "size": "M",
         "material": "Leather"
     }

@@ -3,6 +3,7 @@ import {
   ProductModel,
   ClothingModel,
   ElectronicModel,
+  FurnitureModel,
   IProduct,
   ProductType,
 } from '@models/product.model';
@@ -14,15 +15,17 @@ export default class ProductFactory {
     type: 'Clothing',
     payload
     */
+  static productRegistry: Record<string, any> = {}; // type-class
+
+  static registerProductType(type: string, classRef: any) {
+    ProductFactory.productRegistry[type] = classRef;
+  }
+  // Apply strategy pattern
   static async createProduct({ type, payload }: { type: string; payload: IProduct }) {
-    switch (type) {
-      case ProductType['CLOTHING']:
-        return new Clothing(payload).createProduct();
-      case ProductType['ELECTRONIC']:
-        return new Electronic(payload).createProduct();
-      default:
-        throw new BadRequestError(`Invalid Product Type ${type}`);
-    }
+    const productClass = ProductFactory.productRegistry[type];
+    if (!productClass) throw new BadRequestError(`Invalid Product Type ${type}`);
+
+    return new productClass(payload).createProduct();
   }
 }
 
@@ -62,7 +65,10 @@ class Product {
 
 class Clothing extends Product {
   async createProduct() {
-    const newClothing = await ClothingModel.create(this.product_attributes);
+    const newClothing = await ClothingModel.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
     if (!newClothing) throw new BadRequestError('Create new clothe error');
 
     const newProduct = await super.createProduct({ detailId: newClothing._id });
@@ -74,7 +80,10 @@ class Clothing extends Product {
 
 class Electronic extends Product {
   async createProduct() {
-    const newElectronic = await ElectronicModel.create(this.product_attributes);
+    const newElectronic = await ElectronicModel.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
     if (!newElectronic) throw new BadRequestError('Create new electronic error');
 
     const newProduct = await super.createProduct({ detailId: newElectronic._id });
@@ -83,3 +92,22 @@ class Electronic extends Product {
     return newProduct;
   }
 }
+
+class Furniture extends Product {
+  async createProduct() {
+    const newFurniture = await FurnitureModel.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
+    if (!newFurniture) throw new BadRequestError('Create new Furniture error');
+
+    const newProduct = await super.createProduct({ detailId: newFurniture._id });
+    if (!newProduct) throw new BadRequestError('Create new product error');
+
+    return newProduct;
+  }
+}
+
+ProductFactory.registerProductType(ProductType['CLOTHING'], Clothing);
+ProductFactory.registerProductType(ProductType['ELECTRONIC'], Electronic);
+ProductFactory.registerProductType(ProductType['FURNITURE'], Furniture);

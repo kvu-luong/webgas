@@ -49,7 +49,7 @@ chmod +x .husky/commit-msg
       + create snippet 
         + ctrl shift p -> type search snippet
         + create new snippet file json.
-        + ```
+        ```
          "Generate Mongoose Schema": {
             "prefix": "mdbgm",
             "body": [
@@ -237,6 +237,9 @@ chmod +x .husky/commit-msg
     - But we need to **handle asynchonous** when 1 is fail and other procoss save data is success ???
 
     - id of child must be the same at parent -> query and know where it belong to.
+
+    When update the product type, this will break the rule SOLID in ProductFactory -> therefore, we need to updated 
+
 --------------------
 inistal middlewae :
   - dev dependency

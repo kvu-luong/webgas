@@ -61,24 +61,27 @@ export interface IClothing extends Document {
   brand: string;
   size?: string;
   material?: string;
+  product_shop: Schema.Types.ObjectId;
 }
 const clothingSchema = new Schema<IClothing>(
   {
     brand: { type: String, required: true },
     size: String,
     material: String,
+    product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
   },
   {
     collection: 'clothes',
     timestamps: true,
   }
 );
-export const ClothingModel = model<IClothing & Document>('clothe', clothingSchema);
+export const ClothingModel = model<IClothing & Document>(ProductType['CLOTHING'], clothingSchema);
 
 export interface IElectronic extends Document {
   manufacturer: string;
   model?: string;
   color?: string;
+  product_shop: Schema.Types.ObjectId;
 }
 
 const electronicSchema = new Schema<IElectronic>(
@@ -86,10 +89,38 @@ const electronicSchema = new Schema<IElectronic>(
     manufacturer: { type: String, require: true },
     model: String,
     color: String,
+    product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
   },
   {
     collection: 'electronics',
     timestamps: true,
   }
 );
-export const ElectronicModel = model<IClothing & Document>('electronic', electronicSchema);
+export const ElectronicModel = model<IClothing & Document>(
+  ProductType['ELECTRONIC'],
+  electronicSchema
+);
+
+export interface IFurniture extends Document {
+  brand: string;
+  size?: string;
+  material?: string;
+  product_shop: Schema.Types.ObjectId;
+}
+
+const furnitureSchema = new Schema<IFurniture>(
+  {
+    brand: { type: String, require: true },
+    size: String,
+    material: String,
+    product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
+  },
+  {
+    collection: 'furnitures',
+    timestamps: true,
+  }
+);
+export const FurnitureModel = model<IClothing & Document>(
+  ProductType['FURNITURE'],
+  furnitureSchema
+);
