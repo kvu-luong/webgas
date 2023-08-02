@@ -1,6 +1,7 @@
 @uri=http://localhost:4000/v1/api/
 
 ### Login
+# @name shopLogin
 POST {{uri}}shop/login
 Content-Type: application/json
 x-api-key: 5second
@@ -10,14 +11,14 @@ x-api-key: 5second
     "password": "123123"
 }
 
-
-### Create product
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJmNzVhOTg0NjcyNDAxMzUyMWM0MTEiLCJpYXQiOjE2OTA0MjY3OTQsImV4cCI6MTY5MDQzMDM5NH0.m6p9YLZx9lz03lHwuxpNVNXDUXnNfAX3SSP4Tw_XRh8
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJmNzVhOTg0NjcyNDAxMzUyMWM0MTEiLCJpYXQiOjE2OTA5NzAzNzksImV4cCI6MTY5MDk3Mzk3OX0.iVm1RuHOV9JieJi_n0uAGt6hJ60g96xJyXjlyRuYtJI
+###Error: Create product
+@accessTokenExpired = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJmNzVhOTg0NjcyNDAxMzUyMWM0MTEiLCJpYXQiOjE2OTA0MjY3OTQsImV4cCI6MTY5MDQzMDM5NH0.m6p9YLZx9lz03lHwuxpNVNXDUXnNfAX3SSP4Tw_XRh8
 POST {{uri}}product
 Content-Type: application/json
 x-api-key: 5second
 x-client-id: 64bf75a9846724013521c411
-authorization: Bearer {{accessToken}}
+authorization: Bearer {{accessTokenExpired}}
 
 {
     "product_name": "product optimaize {{$guid}}",
@@ -32,3 +33,80 @@ authorization: Bearer {{accessToken}}
         "material": "Leather"
     }
 }
+
+### Create product
+POST {{uri}}product
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+authorization: Bearer {{accessToken}}
+
+{
+    "product_name": "product {{$guid}}",
+    "product_description": "product description",
+    "product_price": 50,
+    "product_type": "Clothing",
+    "product_thumb": "Product thumnail",
+    "product_quantity": 10,
+    "product_attributes": {
+        "brand": "Levi xs",
+        "size": "M",
+        "material": "Leather"
+    },
+    "product_ratingsAverage":5
+}
+
+### Get list product draft
+GET {{uri}}draft/all
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+authorization: Bearer {{accessToken}}
+
+{
+    "product_shop": "64bf75a9846724013521c411"
+}
+
+
+### Publish product by shp
+PATCH  {{uri}}publishProduct
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+authorization: Bearer {{accessToken}}
+
+{
+    "product_shop": "64bf75a9846724013521c411",
+    "product_id": "64ca0f7ee34a7e9fd8ea6458"
+}
+
+
+### Get list product publish
+GET {{uri}}publish/all
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+authorization: Bearer {{accessToken}}
+
+{
+    "product_shop": "64bf75a9846724013521c411"
+}
+
+
+### Unpublish product by shop
+PATCH  {{uri}}unPublishProduct
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+authorization: Bearer {{accessToken}}
+
+{
+    "product_shop": "64bf75a9846724013521c411",
+    "product_id": "64ca0f7ee34a7e9fd8ea6458"
+}
+
+
+### Get product by keysearch
+GET  {{uri}}search/3cf5afca
+Content-Type: application/json
+x-api-key: 5second

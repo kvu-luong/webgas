@@ -6,11 +6,13 @@ export class ErrorResponse extends Error {
   statusCode: number;
   constructor(message: string, statusCode: number) {
     super(message);
-    this.message = message;
     this.statusCode = statusCode;
   }
   send(res: Response) {
-    return res.status(this.statusCode).json(this);
+    return res.status(this.statusCode).json({
+      message: this.message,
+      statusCode: this.statusCode,
+    });
   }
 }
 

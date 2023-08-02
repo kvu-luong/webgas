@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const envConfig = require('dotenv').config();
 console.log(`Environment configurations:`, envConfig.parsed);
 

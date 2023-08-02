@@ -40,44 +40,44 @@ export const authentication = asyncHandler(
   async (req: CustomRequest, res: Response, next: NextFunction) => {
     // validate userId exist in the header
     const userId = req.headers[configs.header.CLIENT_ID] as string;
-    if (!userId) throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'z');
+    if (!userId) throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'z').send(res);
 
     // validate userId exist in the database
     const keyStoreObj: IKeyStore | null = await KeyStoreService.findByUserId(userId);
-    if (!keyStoreObj) throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'x');
+    if (!keyStoreObj) throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'x').send(res);
 
     const refreshToken = req.headers[configs.header.REFRESH_TOKEN] as string;
     if (refreshToken) {
       try {
         const decodeUser = await verifyJWT(refreshToken, configs.commomConfig.jwt.refresh_secret);
         if (userId !== decodeUser.userId)
-          throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'i');
+          throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'i').send(res);
         req.keyStoreObj = keyStoreObj;
         req.refreshToken = refreshToken;
         req.userId = userId;
 
         return next();
       } catch (error) {
-        throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'k');
+        throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'k').send(res);
       }
     }
 
     // verify accessToken
     const keyStoreId = keyStoreObj._id as string;
     let accessToken = req.headers[configs.header.AUTHORIZATION] as string;
-    if (!accessToken) throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'e');
+    if (!accessToken) throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'e').send(res);
     accessToken = accessToken.split('Bearer ')[1];
 
     try {
       const decodedToken = await verifyJWT(accessToken);
       if (userId !== decodedToken?.userId)
-        throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message);
+        throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'accessToken').send(res);
       req.keyStoreId = keyStoreId?.toString(); // check and delete the sameTo use later: logout
       req.userId = userId;
 
       next();
     } catch (error) {
-      throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message);
+      throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message).send(res);
     }
   },
 );

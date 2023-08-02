@@ -30,11 +30,11 @@ class SuccessReponse {
 export class OK extends SuccessReponse {
   constructor({
     message,
-    statusCode,
+    statusCode = StatusCode.ACCEPTED,
     metadata,
   }: {
     message: string;
-    statusCode: number;
+    statusCode?: number;
     metadata?: object;
   }) {
     super({ message, statusCode, metadata });

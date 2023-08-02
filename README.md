@@ -238,7 +238,7 @@ chmod +x .husky/commit-msg
 
     - id of child must be the same at parent -> query and know where it belong to.
 
-    When update the product type, this will break the rule SOLID in ProductFactory -> therefore, we need to updated 
+    When update the product type, this will break the rule SOLID in **ProductFactory** -> therefore, we need to updated 
 
     - update product model: 
       with slug , pre in mongodb.
@@ -247,7 +247,40 @@ chmod +x .husky/commit-msg
         - page: ecommerce
       apply repository structure.
       BULLQUEUE: https://docs.nestjs.com/techniques/queues
-      
+
+    - features for product
+      + package: slugify
+      + add pre hook in model product
+      + repository folder to handler interface database.
+        + draft product
+        + publish product.
+        + unpublish
+        + search product
+      pagination, total, nextPage, AbstractFactory ????
+    - **Fulltext search**: https://anonystick.com/blog-developer/full-text-search-mongodb-chi-mot-bai-viet-khong-can-nhieu-2022012063033379
+      with index text 
+    - .lean() -> return plain object that reduce memory
+
+---------------------
+api structure and hanlder version on header: 
+    - https://www.youtube.com/watch?v=jSWkGTvZeco&list=PLw0w5s5b9NK4fr9o4uT2xVX199343SPir&index=15
+
+hander version of api in header simlilar to gihub version api.
+
+using next(error) to throw error to the handle router.
+
+call function : https://www.w3schools.com/js/js_function_call.asp
+
+
+hanle error of request with HOC:https://www.youtube.com/watch?v=OMpCldR3XsU
+```
+const handlerRequest = promise => {
+  return promise.then(data => ([undefined, data])).catch(error => ([err, undefined]))
+}
+
+const [err, result] = await handlerRequest(request(a));
+if(err) => do something here.
+```
 --------------------
 inistal middlewae :
   - dev dependency

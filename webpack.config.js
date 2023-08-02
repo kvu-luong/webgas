@@ -23,7 +23,7 @@ module.exports = (env) => {
       alias: Object.keys(tsconfig.compilerOptions.paths).reduce((aliases, aliasName) => {
         aliases[aliasName.replace('/*', '')] = path.resolve(
           __dirname,
-          `${tsconfig.compilerOptions.paths[aliasName][0].replace('/*', '')}`
+          `${tsconfig.compilerOptions.paths[aliasName][0].replace('/*', '')}`,
         );
         return aliases;
       }, {}),

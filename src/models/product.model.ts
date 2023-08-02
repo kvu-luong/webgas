@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
+import slugify from 'slugify';
 
 export enum ProductType {
   ELECTRONIC = 'Eletronics',
@@ -15,6 +16,11 @@ export interface IProduct extends Document {
   product_type: ProductType;
   product_shop: Schema.Types.ObjectId;
   product_attributes: Schema.Types.Mixed;
+  product_slug: string;
+  product_ratingsAverage: number;
+  prouduct_variations?: Array<string>;
+  isDraft: boolean;
+  isPublished: boolean;
 }
 
 const DOCUMENT_NAME = 'Product';
@@ -49,12 +55,31 @@ const productSchema = new Schema<IProduct>(
       ref: 'Shop',
     },
     product_attributes: { type: Schema.Types.Mixed, required: true },
+    product_slug: String,
+    product_ratingsAverage: {
+      type: Number,
+      default: 3.4,
+      min: [1, 'Rating must be greater or equal than 1.0'],
+      max: [5, 'Rating must be less or equal  than 5.0'],
+      set: (val: number) => Math.round(val * 10) / 10,
+    },
+    prouduct_variations: { type: Array<string>, default: [] },
+    isDraft: { type: Boolean, default: true, index: true, select: false },
+    isPublished: { type: Boolean, default: false, index: true, select: false },
   },
   {
     timestamps: true,
     collection: COLLECTION_NAME,
   },
 );
+// create index
+productSchema.index({ product_name: 'text', product_description: 'text' });
+
+productSchema.pre('save', function (next) {
+  this.product_slug = slugify(this.product_name, { lower: true });
+  next();
+});
+
 export const ProductModel = model<IProduct & Document>(DOCUMENT_NAME, productSchema);
 
 export interface IClothing extends Document {
