@@ -261,6 +261,11 @@ chmod +x .husky/commit-msg
       with index text 
     - .lean() -> return plain object that reduce memory
 
+
+  part 9: product 
+  - findAllProducts -> should apply abstractFactory here for paginate
+  -  transaction when update 2 things at the same time
+  -  findOneProduct
 ---------------------
 api structure and hanlder version on header: 
     - https://www.youtube.com/watch?v=jSWkGTvZeco&list=PLw0w5s5b9NK4fr9o4uT2xVX199343SPir&index=15

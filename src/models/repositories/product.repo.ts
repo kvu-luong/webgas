@@ -1,5 +1,6 @@
-import { FilterOneProduct } from '@declareTypes/product';
+import { FilterOneProduct, TFindAllProduct } from '@declareTypes/product';
 import { IProduct, ProductModel } from '@models/product.model';
+import { getSelectData, unSelectData } from '@utils/index';
 import { Types } from 'mongoose';
 
 export const findAllForShop = async (
@@ -61,5 +62,30 @@ export const searchProductByUser = async ({ keySearch }: { keySearch: string }) 
     { score: { $meta: 'textScore' } },
   )
     .sort({ score: { $meta: 'textScore' } })
+    .lean();
+};
+
+export const findAllProduct = async ({ limit, sort, page, filter, select }: TFindAllProduct) => {
+  const skip = (page - 1) * limit;
+  const sortBy: Record<string, any> = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
+  const products = await ProductModel.find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(getSelectData(select))
+    .lean();
+
+  return products;
+};
+
+export const findOneProduct = async ({
+  productId,
+  unSelectFields = [],
+}: {
+  productId: string;
+  unSelectFields: string[];
+}): Promise<IProduct | undefined | null> => {
+  return await ProductModel.findById(new Types.ObjectId(productId))
+    .select(unSelectData(unSelectFields))
     .lean();
 };

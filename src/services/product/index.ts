@@ -1,5 +1,5 @@
 import { BadRequestError } from '@core/error.response';
-import { FilterOneProduct } from '@declareTypes/product';
+import { FilterOneProduct, TFindAllProduct } from '@declareTypes/product';
 import {
   ProductModel,
   ClothingModel,
@@ -10,6 +10,8 @@ import {
 } from '@models/product.model';
 import {
   findAllForShop,
+  findAllProduct,
+  findOneProduct,
   findOneProductByShop,
   publishProduct,
   searchProductByUser,
@@ -84,6 +86,28 @@ export default class ProductFactory {
 
   static async searchProductByUser(keySearch: string) {
     return await searchProductByUser({ keySearch });
+  }
+
+  static async findAllProducts({
+    limit = 50,
+    sort = 'ctime',
+    page = 1,
+    filter = { isPublished: true },
+  }: TFindAllProduct) {
+    return await findAllProduct({
+      limit,
+      sort,
+      page,
+      filter,
+      select: ['product_name', 'product_price', 'product_thumb'],
+    });
+  }
+
+  static async findOneProduct({ productId }: { productId: string }) {
+    return await findOneProduct({
+      productId,
+      unSelectFields: ['__v'],
+    });
   }
 }
 

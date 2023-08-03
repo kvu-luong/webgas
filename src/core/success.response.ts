@@ -35,7 +35,7 @@ export class OK extends SuccessReponse {
   }: {
     message: string;
     statusCode?: number;
-    metadata?: object;
+    metadata?: object | null;
   }) {
     super({ message, statusCode, metadata });
   }

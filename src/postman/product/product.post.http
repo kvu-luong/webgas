@@ -110,3 +110,14 @@ authorization: Bearer {{accessToken}}
 GET  {{uri}}search/3cf5afca
 Content-Type: application/json
 x-api-key: 5second
+
+
+### Get all products
+GET  {{uri}}product/all?limit=xxxx
+Content-Type: application/json
+x-api-key: 5second
+
+### Get product detail
+GET  {{uri}}product?productId=64ca0fdfd5508db501979829
+Content-Type: application/json
+x-api-key: 5second

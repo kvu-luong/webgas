@@ -2,6 +2,7 @@ import { CREATED, OK } from '@core/success.response';
 import { Response } from 'express';
 import ProductFactory from '@services/product';
 import { CustomRequest } from 'global';
+import { TFindAllProduct } from '@declareTypes/product';
 
 export class ProductController {
   static createProduct = async (req: CustomRequest, res: Response) => {
@@ -63,6 +64,32 @@ export class ProductController {
     return new OK({
       message: 'List product by key',
       metadata: await ProductFactory.searchProductByUser(req.params?.keySearch),
+    }).send(res);
+  };
+
+  static findAllProducts = async (req: CustomRequest, res: Response) => {
+    const query: qs.ParsedQs = req.query;
+    const options: TFindAllProduct = {
+      limit: Number(query.limit),
+      sort: query.sort as string,
+      page: Number(query.page),
+      filter: query.filter as Record<string, string | boolean | number>,
+    };
+    return new OK({
+      message: 'Lista all product',
+      metadata: await ProductFactory.findAllProducts(options),
+    }).send(res);
+  };
+
+  static findOneProduct = async (req: CustomRequest, res: Response) => {
+    const query: qs.ParsedQs = req.query;
+    const options = {
+      productId: query.productId as string,
+    };
+
+    return new OK({
+      message: 'List product detail',
+      metadata: await ProductFactory.findOneProduct(options),
     }).send(res);
   };
 }

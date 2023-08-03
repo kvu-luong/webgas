@@ -6,6 +6,9 @@ import { ProductController } from '@controllers/product.controller';
 const router: Router = express.Router();
 
 router.get('/search/:keySearch', asyncHandler(ProductController.searchProductByUser));
+router.get('/product/all', asyncHandler(ProductController.findAllProducts));
+router.get('/product', asyncHandler(ProductController.findOneProduct));
+
 router.use(authentication);
 router.post('/product', asyncHandler(ProductController.createProduct));
 router.get('/draft/all', asyncHandler(ProductController.getDraftProducts));
