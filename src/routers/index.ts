@@ -13,9 +13,9 @@ function routes(app: Express) {
     });
   });
 
-  app.use(configs.commomConfig.app.apiVersionRoute, UserRouter);
-  app.use(configs.commomConfig.app.apiVersionRoute, ProductRouter);
-  app.use(configs.commomConfig.app.apiVersionRoute, AccessRouter);
+  app.use(configs.commomConfig.app.apiVersionRoute + '/user', UserRouter);
+  app.use(configs.commomConfig.app.apiVersionRoute + '/product', ProductRouter);
+  app.use(configs.commomConfig.app.apiVersionRoute + '/shop', AccessRouter);
 
   // Handle 404
   app.use((_req: Request, _res: Response, next: NextFunction) => {

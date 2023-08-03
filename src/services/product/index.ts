@@ -11,12 +11,14 @@ import {
 import {
   findAllForShop,
   findAllProduct,
+  findByIdAndUpdate,
   findOneProduct,
   findOneProductByShop,
   publishProduct,
   searchProductByUser,
   unPublishProduct,
 } from '@models/repositories/product.repo';
+import { removeUndefinedObject, updateNestedObjectParser } from '@utils/index';
 import { Schema } from 'mongoose';
 // Factory pattern
 
@@ -109,12 +111,26 @@ export default class ProductFactory {
       unSelectFields: ['__v'],
     });
   }
+
+  static async updateProduct({
+    type,
+    payload,
+    productId,
+  }: {
+    type: string;
+    payload: IProduct;
+    productId: string;
+  }) {
+    const productClass = ProductFactory.productRegistry[type];
+    if (!productClass) throw new BadRequestError('Type of product does not find');
+    return new productClass(payload).updateProduct({ productId });
+  }
 }
 
 class Product {
   product_name: string;
   product_thumb: string;
-  product_description: string | undefined;
+  product_description?: string;
   product_price: number;
   product_type: ProductType;
   product_shop: Schema.Types.ObjectId;
@@ -149,6 +165,14 @@ class Product {
   async createProduct({ detailId }: { detailId: Schema.Types.ObjectId }) {
     return await ProductModel.create({ ...this, _id: detailId });
   }
+
+  async updateProduct({ productId, payload }: { productId: string; payload: Partial<IProduct> }) {
+    return await findByIdAndUpdate({
+      productId,
+      payload,
+      model: ProductModel,
+    });
+  }
 }
 
 class Clothing extends Product {
@@ -163,6 +187,31 @@ class Clothing extends Product {
     if (!newProduct) throw new BadRequestError('Create new product error');
 
     return newProduct;
+  }
+
+  async updateProduct({ productId }: { productId: string }) {
+    // 1. Remove null, undefined input value
+    console.log(this, 'closthing hahahaahah');
+    const nestedPayload = updateNestedObjectParser(this);
+    console.log(nestedPayload, 'nested payload');
+    const payload = removeUndefinedObject(nestedPayload);
+    console.log(payload, 'hahaha');
+    // 2. Update
+    // Improve with transaction here
+    if (this.product_attributes) {
+      // update child
+      await findByIdAndUpdate({
+        productId,
+        payload,
+        model: ClothingModel,
+      });
+    }
+    // update parent
+    const updateProduct = await super.updateProduct({
+      productId,
+      payload,
+    });
+    return updateProduct;
   }
 }
 
@@ -179,6 +228,28 @@ class Electronic extends Product {
 
     return newProduct;
   }
+
+  async updateProduct({ productId }: { productId: string }) {
+    // 1. Remove null, undefined input value
+    const nestedPayload = updateNestedObjectParser(this);
+    const payload = removeUndefinedObject(nestedPayload);
+    // 2. Update
+    // Improve with transaction here
+    if (this.product_attributes) {
+      // update child
+      await findByIdAndUpdate({
+        productId,
+        payload,
+        model: ElectronicModel,
+      });
+    }
+    // update parent
+    const updateProduct = await super.updateProduct({
+      productId,
+      payload,
+    });
+    return updateProduct;
+  }
 }
 
 class Furniture extends Product {
@@ -193,6 +264,28 @@ class Furniture extends Product {
     if (!newProduct) throw new BadRequestError('Create new product error');
 
     return newProduct;
+  }
+
+  async updateProduct({ productId }: { productId: string }) {
+    // 1. Remove null, undefined input value
+    const nestedPayload = updateNestedObjectParser(this);
+    const payload = removeUndefinedObject(nestedPayload);
+    // 2. Update
+    // Improve with transaction here
+    if (this.product_attributes) {
+      // update child
+      await findByIdAndUpdate({
+        productId,
+        payload,
+        model: FurnitureModel,
+      });
+    }
+    // update parent
+    const updateProduct = await super.updateProduct({
+      productId,
+      payload,
+    });
+    return updateProduct;
   }
 }
 

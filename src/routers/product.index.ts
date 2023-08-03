@@ -6,13 +6,14 @@ import { ProductController } from '@controllers/product.controller';
 const router: Router = express.Router();
 
 router.get('/search/:keySearch', asyncHandler(ProductController.searchProductByUser));
-router.get('/product/all', asyncHandler(ProductController.findAllProducts));
-router.get('/product/:productId', asyncHandler(ProductController.findOneProduct));
+router.get('/all', asyncHandler(ProductController.findAllProducts));
+router.get('/:productId', asyncHandler(ProductController.findOneProduct));
 
 router.use(authentication);
-router.post('/product', asyncHandler(ProductController.createProduct));
+router.post('', asyncHandler(ProductController.createProduct));
 router.get('/draft/all', asyncHandler(ProductController.getDraftProducts));
 router.patch('/publishProduct', asyncHandler(ProductController.publishProduct));
 router.get('/publish/all', asyncHandler(ProductController.getPublishProducts));
 router.patch('/unPublishProduct', asyncHandler(ProductController.unPublishProduct));
+router.patch('/updateProduct/:productId', asyncHandler(ProductController.updateProduct));
 export default router;

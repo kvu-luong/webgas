@@ -89,4 +89,15 @@ export class ProductController {
       }),
     }).send(res);
   };
+
+  static updateProduct = async (req: CustomRequest, res: Response) => {
+    return new OK({
+      message: 'Update product detail',
+      metadata: await ProductFactory.updateProduct({
+        type: req.body.product_type,
+        payload: { ...req.body, product_shop: req.userId },
+        productId: req.params.productId,
+      }),
+    }).send(res);
+  };
 }

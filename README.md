@@ -266,6 +266,20 @@ chmod +x .husky/commit-msg
   - findAllProducts -> should apply abstractFactory here for paginate
   -  transaction when update 2 things at the same time
   -  findOneProduct
+  -  Update product: nested object, input null.
+     -  PUT: full,
+     -  Patch: part -> reduce bandwidth with less data.
+
+  verify email to active account ???
+  Note: **router in index** file must be different to let use middle in each router seperate
+  ```
+    app.use(configs.commomConfig.app.apiVersionRoute + '/user', UserRouter);
+    app.use(configs.commomConfig.app.apiVersionRoute + '/product', ProductRouter);
+    app.use(configs.commomConfig.app.apiVersionRoute + '/shop', AccessRouter);
+
+  ```
+
+  
 ---------------------
 api structure and hanlder version on header: 
     - https://www.youtube.com/watch?v=jSWkGTvZeco&list=PLw0w5s5b9NK4fr9o4uT2xVX199343SPir&index=15

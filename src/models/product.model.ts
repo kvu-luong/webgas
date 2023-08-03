@@ -17,7 +17,7 @@ export interface IProduct extends Document {
   product_shop: Schema.Types.ObjectId;
   product_attributes: Schema.Types.Mixed;
   product_slug: string;
-  product_ratingsAverage: number;
+  product_ratingsAverage?: number;
   prouduct_variations?: Array<string>;
   isDraft: boolean;
   isPublished: boolean;

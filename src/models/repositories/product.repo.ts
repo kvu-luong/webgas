@@ -1,7 +1,7 @@
 import { FilterOneProduct, TFindAllProduct } from '@declareTypes/product';
 import { IProduct, ProductModel } from '@models/product.model';
 import { getSelectData, unSelectData } from '@utils/index';
-import { Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export const findAllForShop = async (
   filter: Record<string, string | number | boolean>,
@@ -88,4 +88,18 @@ export const findOneProduct = async ({
   return await ProductModel.findById(new Types.ObjectId(productId))
     .select(unSelectData(unSelectFields))
     .lean();
+};
+
+export const findByIdAndUpdate = async <T>({
+  productId,
+  payload,
+  isNew = true,
+  model,
+}: {
+  productId: string;
+  payload: Partial<T>;
+  isNew?: boolean;
+  model: Model<T>;
+}) => {
+  return await model.findByIdAndUpdate(productId, payload, { new: isNew });
 };
