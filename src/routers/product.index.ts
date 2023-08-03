@@ -7,7 +7,7 @@ const router: Router = express.Router();
 
 router.get('/search/:keySearch', asyncHandler(ProductController.searchProductByUser));
 router.get('/product/all', asyncHandler(ProductController.findAllProducts));
-router.get('/product', asyncHandler(ProductController.findOneProduct));
+router.get('/product/:productId', asyncHandler(ProductController.findOneProduct));
 
 router.use(authentication);
 router.post('/product', asyncHandler(ProductController.createProduct));

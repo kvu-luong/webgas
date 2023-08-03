@@ -82,14 +82,11 @@ export class ProductController {
   };
 
   static findOneProduct = async (req: CustomRequest, res: Response) => {
-    const query: qs.ParsedQs = req.query;
-    const options = {
-      productId: query.productId as string,
-    };
-
     return new OK({
       message: 'List product detail',
-      metadata: await ProductFactory.findOneProduct(options),
+      metadata: await ProductFactory.findOneProduct({
+        productId: req.params.productId,
+      }),
     }).send(res);
   };
 }
