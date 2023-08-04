@@ -8,6 +8,7 @@ import {
   IProduct,
   ProductType,
 } from '@models/product.model';
+import { insertInventory } from '@models/repositories/inventory.repo';
 import {
   findAllForShop,
   findAllProduct,
@@ -163,7 +164,16 @@ class Product {
   }
 
   async createProduct({ detailId }: { detailId: Schema.Types.ObjectId }) {
-    return await ProductModel.create({ ...this, _id: detailId });
+    const newProduct = await ProductModel.create({ ...this, _id: detailId });
+    if (newProduct) {
+      // Updating inventory
+      await insertInventory({
+        productId: newProduct._id,
+        shopId: this.product_shop,
+        stock: this.product_quantity,
+      });
+    }
+    return newProduct;
   }
 
   async updateProduct({ productId, payload }: { productId: string; payload: Partial<IProduct> }) {
@@ -191,11 +201,8 @@ class Clothing extends Product {
 
   async updateProduct({ productId }: { productId: string }) {
     // 1. Remove null, undefined input value
-    console.log(this, 'closthing hahahaahah');
     const nestedPayload = updateNestedObjectParser(this);
-    console.log(nestedPayload, 'nested payload');
     const payload = removeUndefinedObject(nestedPayload);
-    console.log(payload, 'hahaha');
     // 2. Update
     // Improve with transaction here
     if (this.product_attributes) {

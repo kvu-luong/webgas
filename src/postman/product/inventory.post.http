@@ -1,0 +1,34 @@
+### Create product
+@uri=http://localhost:4000/v1/api/
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJmNzVhOTg0NjcyNDAxMzUyMWM0MTEiLCJpYXQiOjE2OTExMjg5ODIsImV4cCI6MTY5MTEzMjU4Mn0.QnvcSDdIvzMdn1o4OXbsL0n9pqyPZbih9S2GqMNmqjs
+### Login
+POST {{uri}}shop/login
+Content-Type: application/json
+x-api-key: 5second
+
+{
+    "email": "shopa22131sw@yopmail.com",
+    "password": "123123"
+}
+
+### Create product
+POST {{uri}}product
+Content-Type: application/json
+x-api-key: 5second
+x-client-id: 64bf75a9846724013521c411
+authorization: Bearer {{accessToken}}
+
+{
+    "product_name": "product {{$guid}}",
+    "product_description": "product description",
+    "product_price": 50,
+    "product_type": "Clothing",
+    "product_thumb": "Product thumnail",
+    "product_quantity": 10,
+    "product_attributes": {
+        "brand": "Levi xs",
+        "size": "M",
+        "material": "Leather"
+    },
+    "product_ratingsAverage":5
+}

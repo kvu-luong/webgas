@@ -279,6 +279,10 @@ chmod +x .husky/commit-msg
 
   ```
 
+  part 10: Inventory
+  - stock: minus like amazon or not like shopee.
+  - after create product -> then add information to inventory (handle in repo)
+
   
 ---------------------
 api structure and hanlder version on header: 
