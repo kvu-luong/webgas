@@ -3,7 +3,7 @@ import { countConnect } from '@helpers/check.connect';
 import configs from '@typeConfig/index';
 
 // Mongo connection
-const DB_URI = `mongodb://${configs.commomConfig.db.host}:${configs.commomConfig.db.port}/${configs.commomConfig.db.name}`;
+const DB_URI = `mongodb://${configs.commonConfig.db.host}:${configs.commonConfig.db.port}/${configs.commonConfig.db.name}`;
 type MongoConnectFunction = () => void;
 const mongoConnectDB: MongoConnectFunction = (): void => {
   if (process.env.NODE_ENV === 'dev') {

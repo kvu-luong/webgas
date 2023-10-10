@@ -1,7 +1,7 @@
 import { Config } from '@declareTypes/config';
 
 const defaultConfigName = {
-  appPrort: 4000,
+  appPort: 4000,
   dbDevName: 'WebGasDev',
   dbDevHost: 'localhost',
   dbDevPort: 27017,
@@ -13,7 +13,7 @@ const defaultConfigName = {
 
 const dev: Config = {
   app: {
-    port: process.env.DEV_APP_PORT ? Number(process.env.DEV_APP_PORT) : defaultConfigName.appPrort,
+    port: process.env.DEV_APP_PORT ? Number(process.env.DEV_APP_PORT) : defaultConfigName.appPort,
     apiVersionRoute: defaultConfigName.apiVersionRoute,
   },
   db: {
@@ -31,9 +31,7 @@ const dev: Config = {
 
 const prod: Config = {
   app: {
-    port: process.env.PROD_APP_PORT
-      ? Number(process.env.PROD_APP_PORT)
-      : defaultConfigName.appPrort,
+    port: process.env.PROD_APP_PORT ? Number(process.env.PROD_APP_PORT) : defaultConfigName.appPort,
     apiVersionRoute: defaultConfigName.apiVersionRoute,
   },
   db: {
@@ -57,7 +55,7 @@ const env = process.env.NODE_ENV || 'dev';
 const ROLE_SHOP = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
-  EDITER: 'EDITOR',
+  EDITOR: 'EDITOR',
   ADMIN: 'ADMIN',
 };
 
@@ -69,7 +67,7 @@ const HEADER = {
 };
 
 export default {
-  commomConfig: config[env],
+  commonConfig: config[env],
   userRole: ROLE_SHOP,
   header: HEADER,
 };

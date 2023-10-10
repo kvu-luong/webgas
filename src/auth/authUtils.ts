@@ -12,7 +12,8 @@ import { IKeyStore } from '@models/keyStore.model';
 
 export const createTokenPair = async (payload: Payload): Promise<Tokens> => {
   const { access_secret, access_expiration, refresh_secret, refresh_expiration } =
-    configs.commomConfig.jwt;
+    configs.commonConfig.jwt;
+
   try {
     const accessToken = await jwt.sign(payload, access_secret, {
       expiresIn: access_expiration,
@@ -49,7 +50,7 @@ export const authentication = asyncHandler(
     const refreshToken = req.headers[configs.header.REFRESH_TOKEN] as string;
     if (refreshToken) {
       try {
-        const decodeUser = await verifyJWT(refreshToken, configs.commomConfig.jwt.refresh_secret);
+        const decodeUser = await verifyJWT(refreshToken, configs.commonConfig.jwt.refresh_secret);
         if (userId !== decodeUser.userId)
           throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message + 'i').send(res);
         req.keyStoreObj = keyStoreObj;
@@ -77,6 +78,7 @@ export const authentication = asyncHandler(
 
       next();
     } catch (error) {
+      console.log(error, 'authenticate');
       throw new AuthFailureError(Errors.INVALID_CREDENTIAL.message).send(res);
     }
   },
@@ -84,7 +86,7 @@ export const authentication = asyncHandler(
 
 export const verifyJWT = async (
   token: string,
-  secrectKey = configs.commomConfig.jwt.access_secret,
+  secretKey = configs.commonConfig.jwt.access_secret,
 ) => {
-  return (await jwt.verify(token, secrectKey)) as JwtPayload;
+  return (await jwt.verify(token, secretKey)) as JwtPayload;
 };

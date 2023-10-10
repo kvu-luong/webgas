@@ -9,7 +9,7 @@
     "build:prod": "webpack --env.NODE_ENV=prod",
     "build:dev": "webpack --env.NODE_ENV=dev",
     "server:dev": "nodemon \"./dist/server.dev.js\" --watch \"./dist/server.dev.js\"",
-    "watch:dev": "webpack --env.NODE_ENV=dev --watch",
+    "watch:dev": "NODE_OPTIONS='--openssl-legacy-provider' webpack --env.NODE_ENV=dev --watch",
     "server:prod": "nodemon \"./dist/server.prod.js\" --watch \"./dist/server.prod.js\"",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",

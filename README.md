@@ -28,6 +28,9 @@ chmod +x .husky/commit-msg
     + Nummber: 9_000_000
   + Mongo pattern
     + Model nest set: https://www.mongodb.com/docs/manual/tutorial/model-tree-structures-with-nested-sets/
+    Nested comment video: 09/10/2023
+      - controller -> then add it to the router
+      - 
 - 24/07/2023
   - https://www.youtube.com/watch?v=TiMiJazU4Pc
   + connect mongodb and checking connection 
@@ -273,9 +276,9 @@ chmod +x .husky/commit-msg
   verify email to active account ???
   Note: **router in index** file must be different to let use middle in each router seperate
   ```
-    app.use(configs.commomConfig.app.apiVersionRoute + '/user', UserRouter);
-    app.use(configs.commomConfig.app.apiVersionRoute + '/product', ProductRouter);
-    app.use(configs.commomConfig.app.apiVersionRoute + '/shop', AccessRouter);
+    app.use(configs.commonConfig.app.apiVersionRoute + '/user', UserRouter);
+    app.use(configs.commonConfig.app.apiVersionRoute + '/product', ProductRouter);
+    app.use(configs.commonConfig.app.apiVersionRoute + '/shop', AccessRouter);
 
   ```
 
@@ -283,8 +286,40 @@ chmod +x .husky/commit-msg
   - stock: minus like amazon or not like shopee.
   - after create product -> then add information to inventory (handle in repo)
 
+  part 11: Discount
+  - model 
+  - features: 
+      - generate discount code admin | user 
+      - get all discount 
+      - get all product by discount code
+      - get discount amount
+      - delete discount code
+      - cancel discount code
+  
+
+  -------------------
+  Handle notification with message queue: rabbit or kafka 
+  [Video 40](https://www.youtube.com/watch?v=HCTET_WQR1I&list=UUMOky92hx0lZxVBi2BJ6Zm2Hg&index=7)
+  - push via user id range with hash function in seperate message queue.
+  - update with pull ( after login like fb, youtube ) with push notification ( via crobjob send to user)
+      + push for vip, active user 
+      + pull for normal user
+    + message queue to mask this notificat is already push 
+  [Video 42 - Apply notification service](https://www.youtube.com/watch?v=dAefZUW3fOQ&list=UUMOky92hx0lZxVBi2BJ6Zm2Hg&index=5)
+  - using kafka: https://kafka.js.org/docs/getting-started
+  
+  - rabbitmq docker management: https://www.rabbitmq.com/download.html
+    - create producer + comsumer: https://www.npmjs.com/package/amqplib
+- 
   
 ---------------------
+git command: [video](https://www.youtube.com/watch?v=ecK3EnyGD8o)
+```
+git rebase master --interactive
+
+then change squash at the begin to merge commit, only one pick at the start
+```
+----------
 api structure and hanlder version on header: 
     - https://www.youtube.com/watch?v=jSWkGTvZeco&list=PLw0w5s5b9NK4fr9o4uT2xVX199343SPir&index=15
 
@@ -325,6 +360,8 @@ code pattern
   github: https://github.com/anonystick/learning-design-patterns
   - lv2: split function and, in the main we still use if else but we return the function.'
   - good: split function + object condition -> in the main function will return the value of object with type.
+
+ - one more example with upload file with multiple source: https://www.youtube.com/watch?v=J1f5b4vcxCQ 
 ```
 const getPricesStrategies = {
   preOrder: preOrderPriceFn,

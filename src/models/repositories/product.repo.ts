@@ -83,7 +83,7 @@ export const findOneProduct = async ({
   unSelectFields = [],
 }: {
   productId: string;
-  unSelectFields: string[];
+  unSelectFields?: string[];
 }): Promise<IProduct | undefined | null> => {
   return await ProductModel.findById(new Types.ObjectId(productId))
     .select(unSelectData(unSelectFields))

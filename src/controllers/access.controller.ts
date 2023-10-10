@@ -9,7 +9,7 @@ export default class AccessController {
   static signUp = async (req: Request, res: Response) => {
     const { statusCode, metadata } = await AccessService.signUp(req.body);
     new CREATED({
-      message: 'Regsiterd OK!',
+      message: 'Registered OK!',
       metadata,
       statusCode,
     }).send(res);

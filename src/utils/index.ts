@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Types } from 'mongoose';
 
 export const getIntoData = ({
   fields = [],
@@ -35,26 +36,21 @@ export const removeUndefinedObject = <T>(obj: T & Record<string, any>) => {
 export const updateNestedObjectParser = <T>(obj: T & Record<string, any>) => {
   const final: Record<string, any> = {};
   Object.keys(obj).forEach((k: string) => {
-    console.log(obj[k], 'bug');
     // 1 loop
     if (!_.isNil(obj[k]) && typeof obj[k] === 'object' && !Array.isArray(obj[k])) {
       const response = updateNestedObjectParser(obj[k]);
 
       Object.keys(response).forEach((a: string) => {
         if (!_.isNil(response[a])) {
-          console.log(response[a], 'response[a]');
           final[`${k}.${a}`] = response[a];
         } else {
-          console.log(response[a], 'deeteresponse[a]');
           delete obj[k][a];
         }
       });
     } else {
       if (!_.isNil(obj[k])) {
-        console.log(obj[k], 'else[k]');
         final[k] = obj[k];
       } else {
-        console.log(obj[k], 'delete else[k]');
         delete obj[k];
       }
     }
@@ -62,3 +58,5 @@ export const updateNestedObjectParser = <T>(obj: T & Record<string, any>) => {
 
   return final;
 };
+
+export const covertToObjectIdMongodb = (id: string) => new Types.ObjectId(id);
